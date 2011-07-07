@@ -54,8 +54,8 @@ class Dynamic_Controller extends Controller {
       throw new Kohana_404_Exception();
     }
 
-    Photo_Display_Context::factory()
-      ->set_context_callback("dynamic::get_context")
+    Display_Context::factory()
+      ->set_context_callback("dynamic::get_display_context")
       ->set_data(array("dynamic_type" => $album_defn, "path" => $album))
       ->save();
 
