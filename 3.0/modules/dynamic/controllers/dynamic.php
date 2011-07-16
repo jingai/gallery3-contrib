@@ -54,9 +54,8 @@ class Dynamic_Controller extends Controller {
       throw new Kohana_404_Exception();
     }
 
-    Display_Context::factory()
-      ->set_context_callback("dynamic::get_display_context")
-      ->set_data(array("dynamic_type" => $album_defn, "path" => $album))
+    Display_Context::factory("dynamic")
+      ->set(array("dynamic_type" => $album_defn, "path" => $album))
       ->save();
 
     $template = new Theme_View("page.html", "collection", "dynamic");

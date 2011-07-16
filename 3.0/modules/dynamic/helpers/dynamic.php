@@ -18,8 +18,7 @@
  */
 class dynamic_Core {
   static function get_display_context($item, $context) {
-    $data = $context->data();
-    $dynamic_type_definition = $data["dynamic_type"];
+    $dynamic_type_definition = $context->get("dynamic_type");
 
     $position = self::get_position($dynamic_type_definition, $item);
     if ($position > 1) {
@@ -29,7 +28,7 @@ class dynamic_Core {
       list ($next_item) = self::items($dynamic_type_definition->key_field, 1, $position);
     }
 
-    $albumPath = $data["path"];
+    $albumPath = $context->get("path");
     return array("position" =>$position,
                  "previous_item" => $previous_item,
                  "next_item" =>$next_item,
