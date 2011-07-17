@@ -22,4 +22,30 @@ class Dynamic_Display_Context_Core extends Display_Context {
   protected function __construct() {
     parent::__construct("dynamic");
   }
+
+  function display_context($item) {
+    $dynamic_type_definition = $this->get("dynamic_type");
+
+    $position = dynamic::get_position($dynamic_type_definition, $item);
+    if ($position > 1) {
+      list ($previous_item, $ignore, $next_item) = dynamic::items($dynamic_type_definition->key_field, 3, $position - 2);
+    } else {
+      $previous_item = null;
+      list ($next_item) = dynamic::items($dynamic_type_definition->key_field, 1, $position);
+    }
+
+    return array("position" =>$position,
+                 "previous_item" => $previous_item,
+                 "next_item" =>$next_item,
+                 "sibling_count" => dynamic::get_display_count($dynamic_type_definition),
+                 "parents" => $this->bread_crumb($item));
+  }
+
+  function bread_crumb($item) {
+    $dynamic_type_definition = $this->get("dynamic_type");
+    $albumPath = $this->get("path");
+    return array(item::root(), $this->dynamic_item($dynamic_type_definition->title,
+                                                   "dynamic/$albumPath?show={$item->id}"));
+  }
+
 }
